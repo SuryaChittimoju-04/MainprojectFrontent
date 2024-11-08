@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
+import { useNavigate } from 'react-router-dom';
 
 export const SignupForm = ({ onSignup, onNavigateLogin }) => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,8 @@ export const SignupForm = ({ onSignup, onNavigateLogin }) => {
     phone: '',
     email: ''
   });
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -60,7 +63,7 @@ export const SignupForm = ({ onSignup, onNavigateLogin }) => {
           <Button type="submit" className="w-full">Register</Button>
           <p className="text-center">
             Already registered? <button 
-              onClick={onNavigateLogin}
+              onClick={()=>navigate("/login")}
               className="text-blue-500 hover:underline"
               type="button"
             >

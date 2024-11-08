@@ -1,5 +1,5 @@
-// src/reducers/authReducer.js
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from '../actions/authActions';
+// src/store/auth/authReducer.js
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE, OTP_VERIFICATION_REQUEST, OTP_VERIFICATION_SUCCESS, OTP_VERIFICATION_FAILURE } from './actions';
 
 const initialState = {
   isLoading: false,
@@ -8,7 +8,8 @@ const initialState = {
 };
 
 const authReducer = (state = initialState, action) => {
-  switch (action.type) {
+  const { type, payload } = action;
+  switch (type) {
     case LOGIN_REQUEST:
       return {
         ...state,
@@ -19,14 +20,50 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        userData: action.payload,
+        userData: payload,
       };
     case LOGIN_FAILURE:
       return {
         ...state,
         isLoading: false,
-        error: action.payload,
+        error: payload,
       };
+    case OTP_VERIFICATION_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        error: null,
+      };
+    case OTP_VERIFICATION_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        userData: payload,
+      };
+    case OTP_VERIFICATION_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: payload,
+      };
+    case SIGNUP_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        error: null
+      };
+    case SIGNUP_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        userData: payload,
+      }
+    case SIGNUP_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: payload,
+      }
     default:
       return state;
   }

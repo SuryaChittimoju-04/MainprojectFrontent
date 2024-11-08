@@ -1,50 +1,65 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Home from './pages/Home';
+import auth from './store/auth/actions';
+import OTPVerification from './pages/OTPVerification';
 
 const App = () => {
-  const [userData, setUserData] = useState(null);
+  const dispatch = useDispatch();
+  const [userData, setUserData] = useState(false);
+  const bearer = window.localStorage.getItem("api_token");
+  useEffect(() => {
+    if (bearer) {
+      setUserData(true);
+    }
+  }, [bearer]);
 
-  const handleLogin = (aadhar) => {
-    setUserData({ aadhar });
-  };
+  const handleOTPVerification = (data) => {
+    dispatch(auth.otpVerificationRequest(data));
+
+  }
 
   const handleSignup = (data) => {
-    setUserData(data);
+    dispatch(auth.signupRequest(data));
   };
 
   const handleLogout = () => {
     setUserData(null);
+    window.localStorage.removeItem("api_token");
   };
 
   return (
     <Router>
       <div className="font-sans">
         <Routes>
-          {/* Redirect to home if logged in, otherwise show login */}
           <Route
             path="/"
             element={userData ? <Navigate to="/home" /> : <Navigate to="/login" />}
           />
-          
+
           <Route
             path="/login"
-            element={<Login onLogin={handleLogin} />}
+            element={userData ? <Navigate to="/home" /> : <Login />}
           />
-          
+
+          <Route
+            path="/otpVerification"
+            element={<OTPVerification onOTPVerification={handleOTPVerification} />}
+          />
+
           <Route
             path="/signup"
             element={<Signup onSignup={handleSignup} />}
           />
-          
+
           <Route
             path="/home"
             element={userData ? <Home onLogout={handleLogout} /> : <Navigate to="/login" />}
           />
-          
-          {/* Fallback route if the user enters an undefined route */}
+
           <Route
             path="*"
             element={<Navigate to="/" />}

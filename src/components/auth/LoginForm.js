@@ -32,10 +32,10 @@ export const LoginForm = ({ onLogin }) => {
             maxLength={12}
           />
           {error && <p className="text-red-500 text-sm">{error}</p>}
-          <Button type="submit" className="w-full">Login</Button>
+          <Button type="submit" className="w-full">Send OTP</Button>
           <p className="text-center">
             New patient? <button 
-              onClick={navigate("/signup")}
+              onClick={()=>navigate("/signup")}
               className="text-blue-500 hover:underline"
               type="button"
             >
