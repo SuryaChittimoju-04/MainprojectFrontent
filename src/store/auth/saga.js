@@ -32,6 +32,7 @@ function* otpVerification({apiClient},{payload}){
     if(response.statusCode === 200){
       yield put(otpVerificationSuccess(response.data));
       apiClient.setBearerToken(response.data.access_token);
+      window.localStorage.setItem("userName",response.data.name);
       window.localStorage.setItem("refresh_token",response.data.refresh_token);
     }else{
       yield put(otpVerificationFailure(response.message));

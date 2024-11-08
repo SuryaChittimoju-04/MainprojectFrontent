@@ -5,33 +5,33 @@ import Card from '../ui/Card';
 import { Calendar } from 'lucide-react';
 import Button from '../ui/Button';
 
-const formatDate = (dateString) => {
-  const date = new Date(dateString);
+// const formatDate = (dateString) => {
+//   const date = new Date(dateString);
 
-  // Get day, month, year
-  const day = date.getDate();
-  const month = date.toLocaleString('default', { month: 'short' });
-  const year = date.getFullYear();
+//   // Get day, month, year
+//   const day = date.getDate();
+//   const month = date.toLocaleString('default', { month: 'short' });
+//   const year = date.getFullYear();
 
-  // Get hours, minutes, and AM/PM format
-  let hours = date.getHours();
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-  const ampm = hours >= 12 ? 'PM' : 'AM';
-  hours = hours % 12 || 12; // Convert 0 to 12 for 12-hour format
+//   // Get hours, minutes, and AM/PM format
+//   let hours = date.getHours();
+//   const minutes = date.getMinutes().toString().padStart(2, '0');
+//   const ampm = hours >= 12 ? 'PM' : 'AM';
+//   hours = hours % 12 || 12; // Convert 0 to 12 for 12-hour format
 
-  // Determine suffix for day
-  const suffix = (day) => {
-    if (day > 3 && day < 21) return 'th';
-    switch (day % 10) {
-      case 1: return 'st';
-      case 2: return 'nd';
-      case 3: return 'rd';
-      default: return 'th';
-    }
-  };
+//   // Determine suffix for day
+//   const suffix = (day) => {
+//     if (day > 3 && day < 21) return 'th';
+//     switch (day % 10) {
+//       case 1: return 'st';
+//       case 2: return 'nd';
+//       case 3: return 'rd';
+//       default: return 'th';
+//     }
+//   };
 
-  return `${day}${suffix(day)} ${month} ${year} ${hours}:${minutes} ${ampm}`;
-};
+//   return `${day}${suffix(day)} ${month} ${year} ${hours}:${minutes} ${ampm}`;
+// };
 export const AppointmentCard = ({ availableSlots, onBook }) => {
   return (
     <Card className="bg-white overflow-hidden hover:shadow-lg transition-shadow">
@@ -46,8 +46,8 @@ export const AppointmentCard = ({ availableSlots, onBook }) => {
           </div>
         </div>
         <div className="mt-6 gap-4 flex flex-col">
-          {/* <BookingDialog /> */}
-          {availableSlots && availableSlots.map((slot, index) => (
+        <Button className="w-full" onClick={onBook}>Book Slot</Button>
+          {/* {availableSlots && availableSlots.map((slot, index) => (
             <Card key={index}>
               <div className='flex flex-col justify-center items-center'>
                 <p>StartTime: {formatDate(slot.startTime)}</p>
@@ -55,7 +55,7 @@ export const AppointmentCard = ({ availableSlots, onBook }) => {
                 <Button onClick={onBook}>Book</Button>
               </div>
             </Card>
-          ))}
+          ))} */}
         </div>
       </div>
     </Card>

@@ -17,11 +17,10 @@ const OTPVerificationForm = ({ onOTPVerification }) => {
   const bearer = window.localStorage.getItem("api_token");
   const navigate = useNavigate();
   useEffect(() => {
-    if (email === undefined) {
-      navigate("/login");
-    }
     if (bearer) {
       navigate("/home");
+    }else if (email === undefined) {
+      navigate("/login");
     }
   }, [bearer, navigate, email]);
   const handleSubmit = (e) => {
