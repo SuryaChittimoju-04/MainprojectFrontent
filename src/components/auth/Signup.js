@@ -11,7 +11,8 @@ export const SignupForm = ({ onSignup, onNavigateLogin }) => {
     aadhar: '',
     dob: '',
     phone: '',
-    email: ''
+    email: '',
+    gender: ''
   });
 
   const navigate = useNavigate();
@@ -26,44 +27,54 @@ export const SignupForm = ({ onSignup, onNavigateLogin }) => {
       <Card className="w-[480px] p-6">
         <h1 className="text-2xl font-bold text-center mb-6">Patient Registration</h1>
         <form onSubmit={handleSubmit} className="flex flex-col">
-          <Input 
+          <Input
             placeholder="Full Name"
             value={formData.name}
-            onChange={(e) => setFormData({...formData, name: e.target.value})}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             required
           />
-          <Input 
+          <Input
             placeholder="Aadhar Number"
             value={formData.aadhar}
-            onChange={(e) => setFormData({...formData, aadhar: e.target.value.replace(/\D/g, '')})}
+            onChange={(e) => setFormData({ ...formData, aadhar: e.target.value.replace(/\D/g, '') })}
             maxLength={12}
             required
           />
-          <Input 
+          <Input
             type="date"
             placeholder="Date of Birth"
             value={formData.dob}
-            onChange={(e) => setFormData({...formData, dob: e.target.value})}
+            onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
             required
           />
-          <Input 
+          <Input
             type="tel"
             placeholder="Phone Number"
             value={formData.phone}
-            onChange={(e) => setFormData({...formData, phone: e.target.value.replace(/\D/g, '')})}
+            onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/\D/g, '') })}
             maxLength={10}
             required
           />
-          <Input 
+          <Input
             type="email"
             placeholder="Email (Optional)"
             value={formData.email}
-            onChange={(e) => setFormData({...formData, email: e.target.value})}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           />
+          <label className="block text-gray-700">Gender</label>
+          <select className="w-full p-2 border border-gray-300 rounded mt-1"
+            value={formData.gender}
+            onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+            required>
+            <option value="">Select Gender</option>
+            {[{gender:"Male"},{gender:"Female"}].map((gender)=>(
+              <option value={gender.gender} key={gender.gender}>{gender.gender}</option>
+            ))}
+          </select>
           <Button type="submit" className="w-full">Register</Button>
           <p className="text-center">
-            Already registered? <button 
-              onClick={()=>navigate("/login")}
+            Already registered? <button
+              onClick={() => navigate("/login")}
               className="text-blue-500 hover:underline"
               type="button"
             >
