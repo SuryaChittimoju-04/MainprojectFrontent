@@ -2,6 +2,7 @@ const BASE_URL = process.env.BACKEND_BASE_URL || "http://localhost:5000/api/v1/H
 export const apiLogin = `${BASE_URL}/auth/login`;
 export const apiSignUp = `${BASE_URL}/auth/register`;
 export const verifyOTP = `${BASE_URL}/auth/otpVerification`;
+export const refreshTokenApi = `${BASE_URL}/auth/refresh`;
 export const apiFetchSlots = `${BASE_URL}/slot/booked`;
 export const apiFetchAvailableSlots =(doctorId)=> `${BASE_URL}/slot/available?doctorId=${doctorId}`;
 export const apiFetchSpecializations = `${BASE_URL}/specialist/specializations`;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -9,13 +9,15 @@ import OTPVerification from './pages/OTPVerification';
 
 const App = () => {
   const dispatch = useDispatch();
-  const [userData, setUserData] = useState(false);
-  const bearer = window.localStorage.getItem("api_token");
+  const user = useSelector((state) => state.auth.userData);
+  const [userData, setUserData] = useState(user);
   useEffect(() => {
-    if (bearer) {
-      setUserData(true);
+    if (user) {
+      setUserData(user);
+    } else {
+      dispatch(auth.refreshTokenRequest());
     }
-  }, [bearer]);
+  }, [user, dispatch]);
 
   const handleOTPVerification = (data) => {
     dispatch(auth.otpVerificationRequest(data));

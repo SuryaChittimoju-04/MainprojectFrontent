@@ -1,7 +1,7 @@
 // src/store/auth/authSaga.js
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { LOGIN_REQUEST, loginSuccess, loginFailure, OTP_VERIFICATION_REQUEST, otpVerificationSuccess, otpVerificationFailure, SIGNUP_REQUEST, signupFailure, signupSuccess } from './actions';
-import { apiLogin, apiSignUp, verifyOTP } from '../../lib/urls';
+import { LOGIN_REQUEST, loginSuccess, loginFailure, OTP_VERIFICATION_REQUEST, otpVerificationSuccess, otpVerificationFailure, SIGNUP_REQUEST, signupFailure, signupSuccess, REFRESH_TOKEN_REQUEST, refreshTokenFailure, refreshTokenSuccess } from './actions';
+import { apiLogin, apiSignUp, refreshTokenApi, verifyOTP } from '../../lib/urls';
 
 function* loginSaga({ apiClient }, { payload }) {
   try {
@@ -32,6 +32,7 @@ function* otpVerification({apiClient},{payload}){
     if(response.statusCode === 200){
       yield put(otpVerificationSuccess(response.data));
       apiClient.setBearerToken(response.data.access_token);
+      window.localStorage.setItem("aadharNumber",payload.aadharNumber);
       window.localStorage.setItem("userName",response.data.name);
       window.localStorage.setItem("refresh_token",response.data.refresh_token);
     }else{
@@ -79,10 +80,34 @@ function* signupRequestSaga({apiClient},{payload}){
   }
 }
 
+function* refreshTokenSaga({apiClient}){
+  try{
+    const rt = window.localStorage.getItem("refresh_token");
+    const aadhar = window.localStorage.getItem("aadharNumber");
+    const response = yield call([apiClient,apiClient.makeRequest],refreshTokenApi,'POST',{
+      refreshToken: rt,
+      aadharNumber: aadhar,
+    });
+    if(response.ok){
+      yield put(refreshTokenSuccess(response.data));
+      apiClient.setBearerToken(response.data.access_token);
+      window.localStorage.setItem("refresh_token",response.data.refresh_token); 
+    }else{
+      window.localStorage.removeItem("refresh_token");
+      window.localStorage.removeItem("api_token");
+      window.localStorage.removeItem("aadharNumber");
+      window.localStorage.removeItem("userName");
+    }
+  }catch(error){
+    yield put(refreshTokenFailure(error.message));
+  }
+}
+
 function* authSaga(apiClient) {
   yield takeEvery(LOGIN_REQUEST, loginSaga, apiClient);
   yield takeEvery(OTP_VERIFICATION_REQUEST, otpVerification, apiClient);
   yield takeEvery(SIGNUP_REQUEST, signupRequestSaga, apiClient);
+  yield takeEvery(REFRESH_TOKEN_REQUEST, refreshTokenSaga, apiClient);
 }
 
 export default authSaga;

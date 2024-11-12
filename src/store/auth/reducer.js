@@ -1,5 +1,5 @@
 // src/store/auth/authReducer.js
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE, OTP_VERIFICATION_REQUEST, OTP_VERIFICATION_SUCCESS, OTP_VERIFICATION_FAILURE } from './actions';
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE, OTP_VERIFICATION_REQUEST, OTP_VERIFICATION_SUCCESS, OTP_VERIFICATION_FAILURE, REFRESH_TOKEN_SUCCESS } from './actions';
 
 const initialState = {
   isLoading: false,
@@ -64,6 +64,11 @@ const authReducer = (state = initialState, action) => {
         isLoading: false,
         error: payload,
       }
+      case REFRESH_TOKEN_SUCCESS:
+        return {
+          ...state,
+          userData: payload,
+        };
     default:
       return state;
   }

@@ -19,7 +19,7 @@ const OTPVerificationForm = ({ onOTPVerification }) => {
   useEffect(() => {
     if (bearer) {
       navigate("/home");
-    }else if (email === undefined) {
+    }else if (email === undefined && !bearer) {
       navigate("/login");
     }
   }, [bearer, navigate, email]);

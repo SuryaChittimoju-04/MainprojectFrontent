@@ -76,7 +76,7 @@ const BookingPopup = ({ onClose, onSubmit, specializations, fetchDoctors, fetchS
                     </div>
 
                     {/* Slots List */}
-                    <div className="mb-4 max-h-40 overflow-y-auto border border-gray-300 rounded p-2">
+                    <div className="mb-4 max-h-20 overflow-y-auto border border-gray-300 rounded p-2">
                         {slots.length > 0 ? (
                             slots.map((slot) => (
                                 <div key={slot.id} className="p-2 border-b border-gray-200" onClick={()=>setSelectedSlot(slot.id)}>

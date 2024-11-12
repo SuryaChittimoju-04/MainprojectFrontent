@@ -9,6 +9,9 @@ export const OTP_VERIFICATION_FAILURE = 'OTP_VERIFICATION_FAILURE';
 export const SIGNUP_REQUEST = 'SIGNUP_REQUEST';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
+export const REFRESH_TOKEN_REQUEST = 'REFRESH_TOKEN_REQUEST';
+export const REFRESH_TOKEN_SUCCESS = 'REFRESH_TOKEN_SUCCESS';
+export const REFRESH_TOKEN_FAILURE = 'REFRESH_TOKEN_FAILURE';
 
 export const loginRequest = payload => ({
   type: LOGIN_REQUEST,
@@ -55,6 +58,20 @@ export const signupFailure = (error) => ({
   payload: error,
 });
 
+export const refreshTokenRequest = () => ({
+  type: REFRESH_TOKEN_REQUEST,
+});
+
+export const refreshTokenSuccess = (payload) => ({
+  type: REFRESH_TOKEN_SUCCESS,
+  payload,
+});
+
+export const refreshTokenFailure = (error) => ({
+  type: REFRESH_TOKEN_FAILURE,
+  error,
+});
+
 export default {
   loginRequest,
   loginSuccess,
@@ -66,5 +83,9 @@ export default {
 
   signupRequest,
   signupSuccess,
-  signupFailure
+  signupFailure,
+
+  refreshTokenRequest,
+  refreshTokenSuccess,
+  refreshTokenFailure,
 }
