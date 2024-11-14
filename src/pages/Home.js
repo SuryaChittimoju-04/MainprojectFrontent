@@ -9,15 +9,20 @@ import BookingPopup from '../components/dashboard/BookingPopup';
 import { useDispatch, useSelector } from 'react-redux';
 import Slots from '../store/slots/actions';
 import bookings from '../store/bookings/actions';
+import RecordPopup from '../components/dashboard/RecordPopup';
 
 const Home = ({ onLogout }) => {
   const dispatch = useDispatch();
   const slotsData = useSelector((state) => state.slots);
   const bookingData = useSelector((state) => state.bookings.specializations?.data); // Use booking state for specializations and doctors
   const [isBookingInProgress, setIsBookingInProgress] = useState(false);
+  const [isRecordsOpen, setIsRecordsOpen] = useState(false);
+  const [record, setRecord] = useState({ name: "Medical Report", image: "https://res.cloudinary.com/dnizymkd1/image/upload/v1731590522/a4inxpwqkj6z0zhoohuz.png" });
   const userName = window.localStorage.getItem("userName");
+  const recordsData = useSelector((state)=>state.bookings.records?.data);
+  const [records,setRecords] = useState([]);
 
-  const [history,setHistory]= useState([]);
+  const [history, setHistory] = useState([]);
 
   // Fetch initial slot and specialization data
   useEffect(() => {
@@ -31,13 +36,21 @@ const Home = ({ onLogout }) => {
     if (slotsData?.availableSlots?.statusCode === 200) {
       setAvailableSlots(slotsData.availableSlots.data);
     }
-    if(slotsData?.history?.data?.statusCode === 200) {
+    if (slotsData?.history?.data?.statusCode === 200) {
       setHistory(slotsData?.history?.data?.data);
     }
   }, [slotsData]);
 
   const handleBook = () => setIsBookingInProgress(true);
   const closeBookingPopup = () => setIsBookingInProgress(false);
+  const handleRecord = () => {
+    if(recordsData?.statusCode === 200){
+      setRecords(recordsData?.data);
+    }else{
+      dispatch(bookings.fetchRecordsReqest());
+    }
+  }
+  const closeRecord = () => setIsRecordsOpen(false);
 
   const submitBooking = (bookingData) => {
     console.log("Booking data:", bookingData);
@@ -59,14 +72,14 @@ const Home = ({ onLogout }) => {
         </div>
 
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 px-4 sm:px-0">
-          <HealthRecordCard />
+          <HealthRecordCard fetchRecords={handleRecord} records={records} setRecord={setRecord} recordOpen={setIsRecordsOpen}/>
           <AppointmentCard onBook={handleBook} />
-          <ScheduleCard slots={slotsData.upComingSlotsData?.data} fetchSlots={fetchSlots}/>
+          <ScheduleCard slots={slotsData.upComingSlotsData?.data} fetchSlots={fetchSlots} />
         </div>
 
-        <RecentActivity history={history}/>
+        <RecentActivity history={history} />
       </main>
-      
+
       {isBookingInProgress && (
         <BookingPopup
           onClose={closeBookingPopup}
@@ -74,6 +87,12 @@ const Home = ({ onLogout }) => {
           specializations={bookingData.data}
           fetchDoctors={(specialization) => dispatch(bookings.fetchDoctors(specialization))}
           fetchSlots={(doctorId) => dispatch(Slots.fetchAvailableSlotsRequest(doctorId))}
+        />
+      )}
+      {isRecordsOpen && (
+        <RecordPopup
+          onClose={closeRecord}
+          record={record}
         />
       )}
     </div>

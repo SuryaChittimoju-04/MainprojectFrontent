@@ -1,4 +1,4 @@
-import { FETCH_SPECIALIZATIONS_REQUEST, FETCH_SPECIALIZATIONS_FAILURE, FETCH_SPECIALIZATIONS_SUCCESS, FETCH_DOCTORS, FETCH_DOCTORS_SUCCESS, FETCH_DOCTORS_FAILURE, BOOK_SLOT, BOOK_SLOT_SUCCESS, BOOK_SLOT_FAILURE } from "./actions";
+import { FETCH_SPECIALIZATIONS_REQUEST, FETCH_SPECIALIZATIONS_FAILURE, FETCH_SPECIALIZATIONS_SUCCESS, FETCH_DOCTORS, FETCH_DOCTORS_SUCCESS, FETCH_DOCTORS_FAILURE, BOOK_SLOT, BOOK_SLOT_SUCCESS, BOOK_SLOT_FAILURE, RECORDS_REQUEST, RECORDS_SUCCESS, RECORDS_FAILURE } from "./actions";
 
 const initialState = {
     specializations: {
@@ -15,6 +15,11 @@ const initialState = {
         isLoading: false,
         data: null,
         error: null
+    },
+    records: {
+        isLoading: false,
+        data: null,
+        error: null,
     }
 };
 
@@ -47,7 +52,7 @@ const bookingReducer = (state = initialState, action) => {
         case FETCH_DOCTORS:
             return {
                 ...state,
-                doctors:{
+                doctors: {
                     isLoading: true,
                     error: null,
                 },
@@ -55,7 +60,7 @@ const bookingReducer = (state = initialState, action) => {
         case FETCH_DOCTORS_SUCCESS:
             return {
                 ...state,
-                doctors:{
+                doctors: {
                     isLoading: false,
                     data: action.payload,
                 },
@@ -63,7 +68,7 @@ const bookingReducer = (state = initialState, action) => {
         case FETCH_DOCTORS_FAILURE:
             return {
                 ...state,
-                doctors:{
+                doctors: {
                     isLoading: false,
                     error: action.error,
                 },
@@ -71,7 +76,7 @@ const bookingReducer = (state = initialState, action) => {
         case BOOK_SLOT:
             return {
                 ...state,
-                slots:{
+                slots: {
                     isLoading: true,
                     error: null,
                 },
@@ -79,7 +84,7 @@ const bookingReducer = (state = initialState, action) => {
         case BOOK_SLOT_SUCCESS:
             return {
                 ...state,
-                slots:{
+                slots: {
                     isLoading: false,
                     data: action.payload,
                 },
@@ -87,8 +92,32 @@ const bookingReducer = (state = initialState, action) => {
         case BOOK_SLOT_FAILURE:
             return {
                 ...state,
-                slots:{
-                    isLoading:false,
+                slots: {
+                    isLoading: false,
+                    error: action.error,
+                },
+            };
+        case RECORDS_REQUEST:
+            return {
+                ...state,
+                records: {
+                    isLoading: true,
+                    error: null
+                },
+            };
+        case RECORDS_SUCCESS:
+            return {
+                ...state,
+                records: {
+                    isLoading: false,
+                    data: action.payload,
+                },
+            };
+        case RECORDS_FAILURE:
+            return {
+                ...state,
+                records: {
+                    isLoading: false,
                     error: action.error,
                 },
             };

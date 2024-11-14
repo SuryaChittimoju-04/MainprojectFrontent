@@ -11,6 +11,10 @@ export const BOOK_SLOT = 'BOOK_SLOT';
 export const BOOK_SLOT_SUCCESS = 'BOOK_SLOT_SUCCESS';
 export const BOOK_SLOT_FAILURE = 'BOOK_SLOT_FAILURE';
 
+export const RECORDS_REQUEST = 'RECORDS_REQUEST';
+export const RECORDS_SUCCESS = 'RECORDS_SUCCESS';
+export const RECORDS_FAILURE = 'RECORDS_FAILURE';
+
 export const fetchSpecializations = () => ({
     type: FETCH_SPECIALIZATIONS_REQUEST,
 });
@@ -55,6 +59,20 @@ export const bookSlotFailure = (error)=> ({
     error,
 });
 
+export const fetchRecordsReqest = () => ({
+    type: RECORDS_REQUEST,
+});
+
+export const recordsSuccess = (records)=>({
+    type: RECORDS_SUCCESS,
+    payload: records,
+});
+
+export const recordsError = (error) => ({
+    type: RECORDS_FAILURE,
+    error,
+});
+
 export default {
     fetchSpecializations,
     fetchSpecializationsSuccess,
@@ -75,5 +93,12 @@ export default {
     bookSlotFailure,
     BOOK_SLOT,
     BOOK_SLOT_SUCCESS,
-    BOOK_SLOT_FAILURE
+    BOOK_SLOT_FAILURE,
+
+    fetchRecordsReqest,
+    recordsSuccess,
+    recordsError,
+    RECORDS_REQUEST,
+    RECORDS_SUCCESS,
+    RECORDS_FAILURE,
 }

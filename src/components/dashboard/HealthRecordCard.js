@@ -5,7 +5,7 @@ import Card from '../ui/Card';
 import Button from '../ui/Button';
 import { User } from 'lucide-react';
 
-export const HealthRecordCard = () => {
+export const HealthRecordCard = ({ fetchRecords, records, setRecord, recordOpen }) => {
   return (
     <Card className="bg-white overflow-hidden hover:shadow-lg transition-shadow">
       <div className="p-6">
@@ -19,7 +19,21 @@ export const HealthRecordCard = () => {
           </div>
         </div>
         <div className="mt-6">
-          <Button className="w-full">Access Records</Button>
+          <Button className="w-full" onClick={fetchRecords}>Access Records</Button>
+        </div>
+        <div className='flex flex-col gap-4'>
+          {records && records.map((record, index) => (
+            <div onClick={() => {
+              setRecord(record);
+              recordOpen(true);
+            }}>
+              <Card key={index}>
+                <div className='flex w-full'>
+                  <p>{record.name}</p>
+                </div>
+              </Card>
+            </div>
+          ))}
         </div>
       </div>
     </Card>

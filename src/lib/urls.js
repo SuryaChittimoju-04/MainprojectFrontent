@@ -9,3 +9,4 @@ export const apiFetchSpecializations = `${BASE_URL}/specialist/specializations`;
 export const apiFetchDoctors =(specialization)=> `${BASE_URL}/specialist/doctors?specialization=${specialization}`;
 export const apiBookSlot = `${BASE_URL}/slot/book`;
 export const apiHistoryList = `${BASE_URL}/slot/history`;
+export const apiRecordsList = `${BASE_URL}/specialist/reports`;
